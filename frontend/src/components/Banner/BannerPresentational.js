@@ -3,8 +3,8 @@ import "./banner.scss";
 class BannerPresentational {
   constructor({ $target, ...props }) {
     this.$target = $target;
-    this.$Banner = document.createElement("div");
-    this.$Banner.className = "banner";
+    this.$self = document.createElement("div");
+    this.$self.className = "banner";
     
     // props
     this.imgSrc = props.fixedImage;
@@ -13,11 +13,12 @@ class BannerPresentational {
   }
 
   init() { 
-    this.$target.innerHTML = ""; // 먼저 타겟을 지우고 나서 렌더 진행
-    this.render();
+    this.$target.innerHTML = ""; // 먼저 타겟돔을 지우고 나서 마운트 준비
+    this.componentWillMount();
   }
   
-  render() {
+  // mount
+  componentWillMount() {
     const $Banner = /* html */ `
       <div class="container">
         <div class="wrapper">
@@ -33,13 +34,14 @@ class BannerPresentational {
         </div>
       </div>
     `;
-    this.$Banner.insertAdjacentHTML('beforeend', $Banner); // string -> HTMLDOMElement
-    this.$target.appendChild(this.$Banner); // DOM -> DOM
+    this.$self.insertAdjacentHTML('beforeend', $Banner); // string -> HTMLDOMElement
+    this.render();
   }
 
-  reRender(){ 
-    this.$target.appendChild(this.$Banner); // DOM -> DOM
+  render() {    
+    this.$target.appendChild(this.$self); // DOM -> DOM
   }
+
 }
 
 export default BannerPresentational;
